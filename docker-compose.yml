@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+
+    app:
+        build: .
+        ports:
+            - "8080:80"
+        networks:
+            - backend
+        volumes:
+            - .:/app:Z
+        env_file:
+            - .env.dev
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_started
+        extra_hosts:
+            - host.docker.internal:host-gateway
+
+    db:
+        image: postgres:11
+        environment:
+            POSTGRES_DB: cireme
+            POSTGRES_USER: cireme
+            POSTGRES_PASSWORD: cireme
+        ports:
+            - "54320:5432"
+        networks:
+            -   backend
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -d cireme -U cireme -t 15" ]
+            interval: 1s
+            timeout: 15s
+            retries: 5
+        command: [ "postgres", "-c", "log_statement=all" ]
+
+    redis:
+        image: redis
+        ports:
+            - "63790:6379"
+        networks:
+            -   backend
+
+networks:
+    backend:

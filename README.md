@@ -37,3 +37,20 @@ docker compose restart app
 The Laravel `app` service is exposed to Docker host at `8080` port, we can browsed it at http://localhost:8080.
 
 The supporting services like PostgreSQL and Redis are exposed to Docker host at `54320` and `63790` ports.
+
+## Maintenance
+
+### Create Administrator User
+
+To create a user with administrator(super user) privilege, run the create admin CLI command:
+
+```shell
+php artisan create:admin <EMAIL_ADDRESS> <NAME>
+```
+
+or within the `app` container:
+
+```shell
+docker compose exec app php artisan create:admin <EMAIL_ADDRESS> <NAME>
+```
+

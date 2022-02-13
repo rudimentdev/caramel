@@ -23,15 +23,15 @@ services:
     db:
         image: postgres:11
         environment:
-            POSTGRES_DB: cireme
-            POSTGRES_USER: cireme
-            POSTGRES_PASSWORD: cireme
+            POSTGRES_DB: caramel
+            POSTGRES_USER: caramel
+            POSTGRES_PASSWORD: caramel
         ports:
             - "54320:5432"
         networks:
             -   backend
         healthcheck:
-            test: [ "CMD-SHELL", "pg_isready -d cireme -U cireme -t 15" ]
+            test: [ "CMD-SHELL", "pg_isready -d caramel -U caramel -t 15" ]
             interval: 1s
             timeout: 15s
             retries: 5
